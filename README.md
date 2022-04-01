@@ -3,7 +3,7 @@
 ## Project description
 The goal of the project was to simulate collaborative behaviour in a custom multi-agent reinforcement learning (MARL) environment. We look at two types of algorithms: Independent Q-Learning (IQL) and Value Decomposition Network (VDN). The environment used is a Food Collector env detailed in the [Environment description](#environment-description) section. The results are shown below. We can see clear collaborative behaviour from VDN, while the independent learning apprach leads to more indiviudalistic, greedy behaviour:
 
-<a href="url"><img src="https://user-images.githubusercontent.com/74935134/161280870-96ffab5d-11ab-43f4-a84c-58d6dd8cae1a.gif" align="left" width="250" height="250"/>
+<a href="url"><img src="https://user-images.githubusercontent.com/74935134/161282321-81739170-eca0-4185-8d74-e7e49cd62c23.gif" align="left" width="250" height="250"/>
 
 <a href="url"><img src="https://user-images.githubusercontent.com/74935134/161281461-926ef432-d1c1-4a29-97be-c184871dce8b.gif" align="middle" width="250" height="250"/>
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
