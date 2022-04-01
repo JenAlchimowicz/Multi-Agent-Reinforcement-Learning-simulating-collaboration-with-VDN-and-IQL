@@ -17,7 +17,7 @@ The motivation for this project comes mainly from two sources:
 Multi-Agent Reinforcement Learning, custom Gym enironment, Value Decompositon Network, Independent Q-Learning, Food Collector env
 
 ## Environment description
-The environment is implemented as a grid world, with a basic 11x11 grid. Agents are colored red and oragne for better identification, the food is colored green, home is colored blue and walls are colored grey.
+The environment is implemented as a grid world, with a basic 11x11 grid. Agents are colored red and oragne for better identification, the food is colored green, home is colored blue and walls are colored grey. The environment is based on and fully compatible with [OpenAI Gym](https://github.com/openai/gym).
  
 ### Game objective
 The objective of the game is simple: one of the agents needs to eat the food and then they both need to return home. The game only ends if the food is eaten and both agents are in the home area. Moreover, the agents get bonus points if they are both next to the food when it is eaten. Therefore, the expected optimal behaviour is:
