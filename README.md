@@ -21,7 +21,7 @@ The environment is implemented as a grid world, with a basic 11x11 grid. Agents 
  
 ### Game objective
 The objective of the game is simple: one of the agents needs to eat the food and then they both need to return home. The game only ends if the food is eaten and both agents are in the home area. Moreover, the agents get bonus points if they are both next to the food when it is eaten. Therefore, the expected optimal behaviour is:
-1. Both agents get close to the food (agent that is closer to food waits for the other agent)
+1. Both agents get close to the food (agent that spawns closer to food waits for the other agent)
 2. One of them eats the food
 3. They both return home straight after
 
@@ -66,7 +66,7 @@ To observe collaborative behaviour we had to set the reward system so that it pr
 *Reward given and game ends only if the food is eaten
   
   
-## Brief description of the agents
+## Agent description
 The state and action spaces in our environment were simple enough that we could implement a tabular solution such as IQL. This method works by training each agent separately and including the other agent as part of the environment. In IQL each agent tries to maximize it’s own reward and is optimized using it’s own objective function.
   
 At a lower level, VDN is similar to [IDQL](https://web.media.mit.edu/~cynthiab/Readings/tan-MAS-reinfLearn.pdf). There are multiple [DQL](https://arxiv.org/abs/1312.5602) agents, with their own networks and their own state representation inputs. The key difference is that the networks are optimized using a joint value function (Figure below). VDN backpropagates the total team reward signal back to each of the individual networks. As a result, the agents optimize their behaviour towards the benefit of all agents, promoting collaboration.
@@ -77,9 +77,19 @@ At a lower level, VDN is similar to [IDQL](https://web.media.mit.edu/~cynthiab/R
   
 
 ## Results
+  
+### Emerging patterns of interactions
+**For IQL we observed greedy behaviour**, where the agent that is closer to the food went straight for it without waiting for the other agent. Interestingly, the other agent anticipated that and moved towards home ignoring the position of the food. This behaviour was agent invariant, that is we didn’t have a situation where one agent learns to always stay near home and the other one always goes for food. The only case when both agents go for food was when the food spawned in a similar distance to both agents. In this case both of them moved towards it, however, given previous observations this behaviour can be interpreted more as competitive than collaborative.
+  
+**In case of VDN we observed full collaboration**. Each episode, the agents waited for each other before eating the food, thus obtaining all the bonus rewards. This result is expected since by definition, VDN aims to optimize the team reward. It also shows the contrast between independent learning and more interconnected methods. In case of IQL each agent prioritizes itself, while in the case of VDN the agents prioritize the entire network.
 
-### Behaviours
-
-### Training time
+### Training time considerations
+The key issue with independent learning (IQL) is that the behaviour of the other agent changes over time, thus, the environment is not static and we have no convergence guarantees. This issue was prominent in our case: the agents learned particular values for each state-action pair, however, since the behaviour of the other agent changes over time, those state-action values quickly become outdated. Therefore, the agents needed to learn and re-learn several times the state-action values, leading to convergence only after around 500,000 episodes.
+  
+On the other hand, when using VDN we could see good results after as little as 10,000 episodes. The only caveat here was tuning the memory size, if too small or too large it lead to unstable learning (agents not converging at all).
+  
+<p align="center">
+  <img width="700" src="https://user-images.githubusercontent.com/74935134/161398640-5da3d3a9-ad7e-4fb4-833f-dfc573d45e02.png">
+</p>
 
  
