@@ -1,7 +1,7 @@
 # Multi-Agent-RL-simulating-collaboration-with-VDN-and-IQL
 
 ## Project description
-The goal of the project was to simulate collaborative behaviour in a custom multi-agent reinforcement learning ([MARL](https://en.wikipedia.org/wiki/Multi-agent_reinforcement_learning)) environment. We look at two types of algorithms: Independent Q-Learning (IQL) and Value Decomposition Network (VDN). The environment used is a Food Collector env detailed in the [environment description](#environment-description) section. The results are shown below. We can see clear collaborative behaviour from VDN, while the independent learning apprach leads to more indiviudalistic, greedy behaviour:
+The goal of the project was to simulate collaborative behaviour in a custom multi-agent reinforcement learning ([MARL](https://en.wikipedia.org/wiki/Multi-agent_reinforcement_learning)) environment. We look at two types of algorithms: **Independent Q-Learning (IQL)** and **Value Decomposition Network (VDN)**. The environment used is a Food Collector env detailed in the [environment description](#environment-description) section. The results are shown below. We can see clear collaborative behaviour from VDN, while the independent learning apprach leads to more indiviudalistic, greedy behaviour:
 
 
 VDN             |  IQL
@@ -28,7 +28,7 @@ The objective of the game is simple: one of the agents needs to eat the food and
 On the contrary, a greedy behaviour would be for the agent closer to the food to immediately eat it.
   
 ### State Space
-For simplicity and faster training, we use a feature vector for the state representation. The observable state space for each agent consists of a 7-element cevtor:
+For simplicity and faster training, we use a feature vector for the state representation. The observable state space for each agent consists of a **7-element vector**:
 - Two elements to describe the relative x and y distance to the food
 - Two elements to describe the relative x and y distance to the home
 - Two elements to describe the relative x and y distance to the other agent
@@ -66,7 +66,15 @@ To observe collaborative behaviour we had to set the reward system so that it pr
 *Reward given and game ends only if the food is eaten
   
   
-## Agents description
+## Brief description of the agents
+The state and action spaces in our environment were simple enough that we could implement a tabular solution such as IQL. This method works by training each agent separately and including the other agent as part of the environment. In IQL each agent tries to maximize it’s own reward and is optimized using it’s own objective function.
+  
+At a lower level, VDN is similar to [IDQL](https://web.media.mit.edu/~cynthiab/Readings/tan-MAS-reinfLearn.pdf). There are multiple [DQL](https://arxiv.org/abs/1312.5602) agents, with their own networks and their own state representation inputs. The key difference is that the networks are optimized using a joint value function (Figure below). VDN backpropagates the total team reward signal back to each of the individual networks. As a result, the agents optimize their behaviour towards the benefit of all agents, promoting collaboration.
+
+<p align="center">
+  <img width="600" src="https://user-images.githubusercontent.com/74935134/161397892-060b5f3e-d0a6-40b8-9663-4a74282d0e74.png">
+</p>
+  
 
 ## Results
 
