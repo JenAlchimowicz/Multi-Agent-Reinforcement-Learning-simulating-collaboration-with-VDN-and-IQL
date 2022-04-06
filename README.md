@@ -1,7 +1,15 @@
 # Multi-Agent-RL-simulating-collaboration-with-VDN-and-IQL
 
+Table of contents:
+- [Project description](#project-description)
+- [Motivation](#motivation)
+- [Tags](#tags)
+- [Environment description](#environment-description)
+- [Agents description](#agent-description)
+- [Results](#results)
+
 ## Project description
-The goal of the project was to simulate collaborative behaviour in a custom multi-agent reinforcement learning ([MARL](https://en.wikipedia.org/wiki/Multi-agent_reinforcement_learning)) environment. We look at two types of algorithms: **Independent Q-Learning (IQL)** and **Value Decomposition Network (VDN)**. The environment used is a Food Collector env detailed in the [environment description](#environment-description) section. The results are shown below. We can see clear collaborative behaviour from VDN, while the independent learning apprach leads to more indiviudalistic, greedy behaviour:
+The goal of the project was to simulate collaborative behaviour in a custom multi-agent reinforcement learning ([MARL](https://en.wikipedia.org/wiki/Multi-agent_reinforcement_learning)) environment. We look at two types of algorithms: `Independent Q-Learning (IQL)` and `Value Decomposition Network (VDN)`. The environment used is a Food Collector env detailed in the [environment description](#environment-description) section. The results are shown below. We can see clear collaborative behaviour from VDN, while the independent learning apprach leads to more indiviudalistic, greedy behaviour:
 
 
 VDN             |  IQL
@@ -17,10 +25,10 @@ The motivation for this project comes mainly from two sources:
 Multi-Agent Reinforcement Learning, custom Gym enironment, Value Decompositon Network, Independent Q-Learning, Food Collector env
 
 ## Environment description
-The environment is implemented as a grid world, with a basic 11x11 grid. Agents are colored red and oragne for better identification, the food is colored green, home is colored blue and walls are colored grey. The environment is based on and fully compatible with [OpenAI Gym](https://github.com/openai/gym).
+The environment is implemented as a grid world, with a 11x11 grid. Agents are colored red and oragne for better identification, the food is colored green, home is colored blue and walls are colored grey. The environment is based on and fully compatible with [OpenAI Gym](https://github.com/openai/gym).
  
 ### Game objective
-The objective of the game is simple: one of the agents needs to eat the food and then they both need to return home. The game only ends if the food is eaten and both agents are in the home area. Moreover, the agents get bonus points if they are both next to the food when it is eaten. Therefore, the expected optimal behaviour is:
+The objective of the game is simple: one of the agents needs to eat the food and then they both need to return home. The game only ends if the food is eaten and both agents are in the home area. Moreover, the agents get bonus points if they are both next to the food when it is eaten. Therefore, the **expected optimal behaviour** is:
 1. Both agents get close to the food (agent that spawns closer to food waits for the other agent)
 2. One of them eats the food
 3. They both return home straight after
@@ -28,7 +36,7 @@ The objective of the game is simple: one of the agents needs to eat the food and
 On the contrary, a greedy behaviour would be for the agent closer to the food to immediately eat it.
   
 ### State Space
-For simplicity and faster training, we use a feature vector for the state representation. The observable state space for each agent consists of a **7-element vector**:
+For simplicity and faster training, we use a feature vector for the state representation. The observable state space for each agent consists of a `7-element vector`:
 - Two elements to describe the relative x and y distance to the food
 - Two elements to describe the relative x and y distance to the home
 - Two elements to describe the relative x and y distance to the other agent
@@ -79,9 +87,9 @@ At a lower level, VDN is similar to [IDQL](https://web.media.mit.edu/~cynthiab/R
 ## Results
   
 ### Emerging patterns of interactions
-**For IQL we observed greedy behaviour**, where the agent that is closer to the food went straight for it without waiting for the other agent. Interestingly, the other agent anticipated that and moved towards home ignoring the position of the food. This behaviour was agent invariant, that is we didn’t have a situation where one agent learns to always stay near home and the other one always goes for food. The only case when both agents go for food was when the food spawned in a similar distance to both agents. In this case both of them moved towards it, however, given previous observations this behaviour can be interpreted more as competitive than collaborative.
+`For IQL we observed greedy behaviour`, where the agent that is closer to the food went straight for it without waiting for the other agent. Interestingly, the other agent anticipated that and moved towards home ignoring the position of the food. This behaviour was agent invariant, that is we didn’t have a situation where one agent learns to always stay near home and the other one always goes for food. The only case when both agents go for food was when the food spawned in a similar distance to both agents. In this case both of them moved towards it, however, given previous observations this behaviour can be interpreted more as competitive than collaborative.
   
-**In case of VDN we observed full collaboration**. Each episode, the agents waited for each other before eating the food, thus obtaining all the bonus rewards. This result is expected since by definition, VDN aims to optimize the team reward. It also shows the contrast between independent learning and more interconnected methods. In case of IQL each agent prioritizes itself, while in the case of VDN the agents prioritize the entire network.
+`In case of VDN we observed full collaboration`. Each episode, the agents waited for each other before eating the food, thus obtaining all the bonus rewards. This result is expected since by definition, VDN aims to optimize the team reward. It also shows the contrast between independent learning and more interconnected methods. In case of IQL each agent prioritizes itself, while in the case of VDN the agents prioritize the entire network.
 
 ### Training time considerations
 The key issue with independent learning (IQL) is that the behaviour of the other agent changes over time, thus, the environment is not static and we have no convergence guarantees. This issue was prominent in our case: the agents learned particular values for each state-action pair, however, since the behaviour of the other agent changes over time, those state-action values quickly become outdated. Therefore, the agents needed to learn and re-learn several times the state-action values, leading to convergence only after around 500,000 episodes.
