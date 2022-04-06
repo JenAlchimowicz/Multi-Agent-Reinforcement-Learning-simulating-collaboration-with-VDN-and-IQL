@@ -82,6 +82,9 @@ At a lower level, VDN is similar to [IDQL](https://web.media.mit.edu/~cynthiab/R
 <p align="center">
   <img width="600" src="https://user-images.githubusercontent.com/74935134/161397892-060b5f3e-d0a6-40b8-9663-4a74282d0e74.png">
 </p>
+<p align = "center">
+  <i>Source:</i> https://arxiv.org/pdf/1706.05296.pdf
+</p> 
   
 
 ## Results
